@@ -1,685 +1,544 @@
-# my-study-planer
-its a study planer. its cute
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌸 Cute Study Planner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    /* ═══════════════════════════════════════ */
-    /* 🌸 CUTE STUDY TIMETABLE - STYLES 🌸 */
-    /* ═══════════════════════════════════════ */
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    :root {
-      --pink-light: #fff0f5;
-      --pink-main: #ff85a2;
-      --pink-dark: #ff5c7c;
-      --purple-light: #f3e5f5;
-      --purple-main: #ba68c8;
-      --blue-light: #e3f2fd;
-      --blue-main: #64b5f6;
-      --green-light: #e8f5e9;
-      --green-main: #81c784;
-      --yellow-light: #fffde7;
-      --yellow-main: #ffd54f;
-      --orange-light: #fff3e0;
-      --orange-main: #ffb74d;
-      --cream: #fdf5f0;
-      --white: #ffffff;
-      --text-dark: #4a4a4a;
-      --text-light: #8a8a8a;
-    }
-    
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--cream);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-    
-    /* Cute background decorations */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -50px;
-      left: -50px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(255,133,162,0.2) 0%, transparent 70%);
-      border-radius: 50%;
-      z-index: -1;
-    }
-    
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -80px;
-      right: -80px;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(186,104,200,0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      z-index: -1;
-    }
-    
-    /* Floating decorations */
-    .decoration {
-      position: fixed;
-      font-size: 24px;
-      opacity: 0.3;
-      z-index: -1;
-      animation: float 6s ease-in-out infinite;
-    }
-    
-    .decoration:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-    .decoration:nth-child(2) { top: 30%; right: 8%; animation-delay: 1s; }
-    .decoration:nth-child(3) { bottom: 20%; left: 10%; animation-delay: 2s; }
-    .decoration:nth-child(4) { bottom: 40%; right: 5%; animation-delay: 3s; }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(10deg); }
-    }
-    
-    /* Main Container */
-    .app-wrapper {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px;
-      min-height: 100vh;
-    }
-    
-    /* Header */
-    .header {
-      text-align: center;
-      padding: 30px 20px;
-      background: linear-gradient(135deg, var(--pink-light) 0%, #ffe4ec 100%);
-      border-radius: 30px;
-      margin-bottom: 25px;
-      box-shadow: 0 10px 40px rgba(255,133,162,0.2);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .header::before {
-      content: '✦';
-      position: absolute;
-      top: 15px;
-      left: 20px;
-      color: var(--pink-main);
-      font-size: 20px;
-    }
-    
-    .header::after {
-      content: '✦';
-      position: absolute;
-      bottom: 15px;
-      right: 20px;
-      color: var(--pink-main);
-      font-size: 20px;
-    }
-    
-    .mascot {
-      font-size: 60px;
-      margin-bottom: 10px;
-      animation: bounce 2s ease-in-out infinite;
-      display: inline-block;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-    
-    .header h1 {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--pink-dark);
-      margin-bottom: 5px;
-      letter-spacing: -0.5px;
-    }
-    
-    .header p {
-      color: var(--pink-main);
-      font-weight: 600;
-      font-size: 14px;
-    }
-    
-    /* Add Task Section */
-    .add-task-card {
-      background: var(--white);
-      border-radius: 25px;
-      padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-      border: 2px solid transparent;
-      transition: all 0.3s;
-    }
-    
-    .add-task-card:hover {
-      border-color: var(--pink-light);
-    }
-    
-    .add-task-card h2 {
-      font-size: 18px;
-      color: var(--text-dark);
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    /* Day Tabs */
-    .day-tabs {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    
-    .day-tab {
-      flex: 1;
-      min-width: 45px;
-      padding: 10px 5px;
-      border: 2px solid var(--pink-light);
-      background: var(--white);
-      border-radius: 15px;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      color: var(--text-light);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .day-tab:hover {
-      border-color: var(--pink-main);
-      color: var(--pink-main);
-    }
-    
-    .day-tab.active {
-      background: linear-gradient(135deg, var(--pink-main), var(--pink-dark));
-      color: var(--white);
-      border-color: var(--pink-main);
-      box-shadow: 0 5px 15px rgba(255,92,124,0.3);
-    }
-    
-    /* Input Fields */
-    .input-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    
-    .input-field {
-      flex: 1;
-      padding: 14px 16px;
-      border: 2px solid var(--pink-light);
-      border-radius: 15px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-dark);
-      transition: all 0.3s;
-      outline: none;
-    }
-    
-    .input-field:focus {
-      border-color: var(--pink-main);
-      box-shadow: 0 0 0 4px rgba(255,133,162,0.15);
-    }
-    
-    .input-field::placeholder {
-      color: #c9c9c9;
-    }
-    
-    input[type="time"] {
-      color-scheme: light;
-    }
-    
-    /* Add Button */
-    .btn-add {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--pink-main), var(--pink-dark));
-      color: var(--white);
-      border: none;
-      border-radius: 15px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 8px 25px rgba(255,92,124,0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .btn-add:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(255,92,124,0.45);
-    }
-    
-    .btn-add:active {
-      transform: translateY(0);
-    }
-    
-    /* Timetable Display */
-    .timetable-section {
-      margin-bottom: 25px;
-    }
-    
-    .day-group {
-      margin-bottom: 20px;
-    }
-    
-    .day-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-      padding: 12px 18px;
-      border-radius: 15px;
-      font-weight: 800;
-      font-size: 16px;
-    }
-    
-    .day-title.monday { background: var(--pink-light); color: var(--pink-dark); }
-    .day-title.tuesday { background: var(--yellow-light); color: #f9a825; }
-    .day-title.wednesday { background: var(--blue-light); color: var(--blue-main); }
-    .day-title.thursday { background: var(--purple-light); color: var(--purple-main); }
-    .day-title.friday { background: var(--orange-light); color: var(--orange-main); }
-    .day-title.saturday { background: var(--green-light); color: var(--green-main); }
-    .day-title.sunday { background: #fce4ec; color: #ec407a; }
-    
-    .task-card {
-      background: var(--white);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      animation: slideIn 0.3s ease;
-      border-left: 4px solid var(--pink-main);
-      transition: all 0.3s;
-    }
-    
-    .task-card:hover {
-      transform: translateX(5px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .task-time {
-      min-width: 70px;
-      padding: 8px 12px;
-      background: var(--pink-light);
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--pink-dark);
-      text-align: center;
-    }
-    
-    .task-details {
-      flex: 1;
-    }
-    
-    .task-subject {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text-dark);
-      margin-bottom: 3px;
-    }
-    
-    .task-note {
-      font-size: 12px;
-      color: var(--text-light);
-    }
-    
-    .btn-delete {
-      width: 36px;
-      height: 36px;
-      border: none;
-      background: var(--pink-light);
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .btn-delete:hover {
-      background: var(--pink-dark);
-      color: var(--white);
-    }
-    
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 50px 20px;
-      color: var(--text-light);
-    }
-    
-    .empty-state .icon {
-      font-size: 60px;
-      margin-bottom: 15px;
-      opacity: 0.5;
-    }
-    
-    .empty-state p {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    
-    /* Stats Card */
-    .stats-card {
-      background: linear-gradient(135deg, var(--pink-main), var(--purple-main));
-      border-radius: 25px;
-      padding: 25px;
-      text-align: center;
-      color: var(--white);
-      box-shadow: 0 10px 40px rgba(186,104,200,0.3);
-      margin-bottom: 25px;
-    }
-    
-    .stats-card h3 {
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0.9;
-      margin-bottom: 5px;
-    }
-    
-    .stats-card .number {
-      font-size: 48px;
-      font-weight: 800;
-      line-height: 1;
-    }
-    
-    .stats-card .label {
-      font-size: 13px;
-      opacity: 0.85;
-    }
-    
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 20px;
-      color: var(--text-light);
-      font-size: 12px;
-    }
-    
-    .footer span {
-      color: var(--pink-main);
-    }
-    
-    /* Responsive */
-    @media (max-width: 400px) {
-      .input-row {
-        flex-direction: column;
-      }
-      
-      .day-tab {
-        min-width: 40px;
-        padding: 8px 4px;
-        font-size: 11px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSC Prelims Planner | 14-Hr Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ffb7b2; /* Pastel Red */
+            --secondary: #b5ead7; /* Pastel Green */
+            --accent: #c7ceea; /* Pastel Purple */
+            --bg: #fff5f5; /* Light Pink/White */
+            --text: #555;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background-image: radial-gradient(#ffe4e1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Header & Alex (The Boyfriend) */
+        header {
+            background: linear-gradient(135deg, var(--primary), #ff9aa2);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 15px rgba(255, 183, 178, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alex-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .alex-avatar {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 4px solid var(--accent);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .speech-bubble {
+            background: white;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: relative;
+            max-width: 250px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent white transparent transparent;
+        }
+
+        h1 { margin: 0; font-size: 1.8rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        h2 { margin: 10px 0 5px; font-size: 1.1rem; opacity: 0.9; }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Day Tracker */
+        .day-tracker {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 2px dashed var(--accent);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), #98d8c8);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .day-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #777;
+            transition: all 0.2s;
+        }
+
+        .day-btn:hover { background: #e0e0e0; }
+        
+        .day-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(255, 183, 178, 0.5);
+        }
+
+        .day-btn.completed {
+            background: var(--secondary);
+            color: #2d6a4f;
+        }
+
+        /* Schedule Section */
+        .schedule-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.2s;
+        }
+
+        .schedule-card:hover { transform: translateY(-3px); }
+
+        .time-block {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .time-block:hover { background: #f0f0f0; }
+
+        .time-block input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .time-block label {
+            flex-grow: 1;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .time-block.checked label {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .time-tag {
+            background: var(--secondary);
+            color: #2d6a4f;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .csat-tag {
+            background: var(--accent);
+            color: #4a4a8a;
+        }
+
+        /* Motivation Section */
+        .motivation-box {
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 20px;
+            border: 2px solid #ffe082;
+        }
+
+        .motivation-box h3 { margin-top: 0; color: #5d4037; }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #5d4037;
+            margin: 10px 0;
+        }
+
+        /* Subject Input */
+        .subject-input-container {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .days-grid { grid-template-columns: repeat(3, 1fr); }
+            .alex-container { flex-direction: column; text-align: center; }
+            .speech-bubble { margin-top: 10px; }
+            .speech-bubble::before { display: none; }
+        }
+    </style>
 </head>
 <body>
-  <!-- Floating Decorations -->
-  <div class="decoration">🌸</div>
-  <div class="decoration">🎀</div>
-  <div class="decoration">✨</div>
-  <div class="decoration">📚</div>
 
-  <div class="app-wrapper">
-    <!-- Header -->
-    <div class="header">
-      <div class="mascot">📖💕</div>
-      <h1>My Study Planner</h1>
-      <p>Let's achieve great things together!</p>
-    </div>
-
-    <!-- Add Task Card -->
-    <div class="add-task-card">
-      <h2>➕ Add New Study Session</h2>
-      
-      <!-- Day Tabs -->
-      <div class="day-tabs" id="dayTabs">
-        <button class="day-tab active" data-day="monday">Mon</button>
-        <button class="day-tab" data-day="tuesday">Tue</button>
-        <button class="day-tab" data-day="wednesday">Wed</button>
-        <button class="day-tab" data-day="thursday">Thu</button>
-        <button class="day-tab" data-day="friday">Fri</button>
-        <button class="day-tab" data-day="saturday">Sat</button>
-        <button class="day-tab" data-day="sunday">Sun</button>
-      </div>
-      
-      <div class="input-row">
-        <input type="text" class="input-field" id="subjectInput" placeholder="📚 Subject name...">
-      </div>
-      
-      <div class="input-row">
-        <input type="text" class="input-field" id="noteInput" placeholder="📝 Quick note (optional)">
-        <input type="time" class="input-field" id="timeInput">
-      </div>
-      
-      <button class="btn-add" onclick="addTask()">
-        ✨ Add to Timetable
-      </button>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-card">
-      <h3>🌟 Weekly Progress</h3>
-      <div class="number" id="totalCount">0</div>
-      <div class="label">study sessions planned</div>
-    </div>
-
-    <!-- Timetable -->
-    <div class="timetable-section" id="timetable">
-      <!-- Tasks will appear here -->
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-      Made with <span>💖</span> for amazing students
-    </div>
-  </div>
-
-  <script>
-    // ═══════════════════════════════════════
-    // 🌸 JAVASCRIPT - MAKE IT WORK! 🌸
-    // ═══════════════════════════════════════
-    
-    let currentDay = 'monday';
-    
-    // Initialize tasks from localStorage or empty object
-    let tasks = JSON.parse(localStorage.getItem('cuteStudyTasks')) || {
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-      saturday: [],
-      sunday: []
-    };
-    
-    const dayNames = {
-      monday: 'Monday',
-      tuesday: 'Tuesday',
-      wednesday: 'Wednesday',
-      thursday: 'Thursday',
-      friday: 'Friday',
-      saturday: 'Saturday',
-      sunday: 'Sunday'
-    };
-    
-    const dayEmojis = {
-      monday: '🌸',
-      tuesday: '🌻',
-      wednesday: '🌈',
-      thursday: '🍇',
-      friday: '⭐',
-      saturday: '🎉',
-      sunday: '☀️'
-    };
-    
-    // Day tab click handler
-    document.querySelectorAll('.day-tab').forEach(tab => {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        currentDay = this.dataset.day;
-      });
-    });
-    
-    // Add new task
-    function addTask() {
-      const subject = document.getElementById('subjectInput').value.trim();
-      const note = document.getElementById('noteInput').value.trim();
-      const time = document.getElementById('timeInput').value;
-      
-      // Validation
-      if (!subject) {
-        alert('Please enter a subject! 📚');
-        return;
-      }
-      if (!time) {
-        alert('Please pick a time! ⏰');
-        return;
-      }
-      
-      // Add task to current day
-      tasks[currentDay].push({
-        id: Date.now(),
-        subject,
-        note,
-        time
-      });
-      
-      // Sort by time
-      tasks[currentDay].sort((a, b) => a.time.localeCompare(b.time));
-      
-      // Save to localStorage
-      saveTasks();
-      
-      // Clear inputs
-      document.getElementById('subjectInput').value = '';
-      document.getElementById('noteInput').value = '';
-      document.getElementById('timeInput').value = '';
-      
-      // Re-render
-      renderTasks();
-    }
-    
-    // Delete task
-    function deleteTask(day, taskId) {
-      tasks[day] = tasks[day].filter(task => task.id !== taskId);
-      saveTasks();
-      renderTasks();
-    }
-    
-    // Save to localStorage
-    function saveTasks() {
-      localStorage.setItem('cuteStudyTasks', JSON.stringify(tasks));
-    }
-    
-    // Format time to 12-hour format
-    function formatTime(time24) {
-      const [hours, minutes] = time24.split(':');
-      const h = parseInt(hours);
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      const h12 = h % 12 || 12;
-      return `${h12}:${minutes} ${ampm}`;
-    }
-    
-    // Render all tasks
-    function renderTasks() {
-      const container = document.getElementById('timetable');
-      container.innerHTML = '';
-      
-      let total = 0;
-      
-      // Loop through each day
-      Object.keys(tasks).forEach(day => {
-        const dayTasks = tasks[day];
+    <!-- Header with Alex -->
+    <header>
+        <h1>UPSC Prelims Planner</h1>
+        <h2>14-Hour Challenge • 15 Days • 1 Subject</h2>
         
-        if (dayTasks.length > 0) {
-          total += dayTasks.length;
-          
-          const dayGroup = document.createElement('div');
-          dayGroup.className = 'day-group';
-          
-          let tasksHTML = '';
-          dayTasks.forEach(task => {
-            tasksHTML += `
-              <div class="task-card">
-                <div class="task-time">${formatTime(task.time)}</div>
-                <div class="task-details">
-                  <div class="task-subject">${task.subject}</div>
-                  ${task.note ? `<div class="task-note">${task.note}</div>` : ''}
-                </div>
-                <button class="btn-delete" onclick="deleteTask('${day}', ${task.id})">✕</button>
-              </div>
-            `;
-          });
-          
-          dayGroup.innerHTML = `
-            <div class="day-title ${day}">
-              ${dayEmojis[day]} ${dayNames[day]}
+        <div class="alex-container">
+            <div class="speech-bubble" id="alex-message">
+                Hi! I'm Alex, your study buddy. Ready to crush Prelims? Let's do this! 💪
             </div>
-            ${tasksHTML}
-          `;
-          
-          container.appendChild(dayGroup);
+            <div class="alex-avatar">👨‍🎓</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- Subject Input -->
+        <div class="subject-input-container">
+            <label for="subjectName" style="font-weight: 600; display: block; margin-bottom: 8px;">📚 Enter Your Subject for 15 Days:</label>
+            <input type="text" id="subjectName" placeholder="e.g., Modern History, Geography, Polity..." oninput="updateSubject()">
+        </div>
+
+        <!-- Day Tracker -->
+        <div class="day-tracker">
+            <div class="day-header">
+                <h3>📅 15-Day Tracker</h3>
+                <span id="progress-text">Day 1/15</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="days-grid" id="days-grid">
+                <!-- Days will be generated by JS -->
+            </div>
+        </div>
+
+        <!-- Daily Schedule -->
+        <div class="schedule-card">
+            <h3>📝 Today's 14-Hour Schedule</h3>
+            <p id="subject-display" style="color: var(--primary); font-weight: bold; margin-bottom: 15px;">Subject: Not Selected</p>
+            
+            <div class="time-block" onclick="toggleCheck(this)">
+                <input type="checkbox" id="task1">
+                <label for="task1">Study Block 1 (3 Hours)</label>
+                <span class="time-tag">Morning</span>
+            </div>
+            
+            <div class="time-block" onclick="toggleCheck(this)">
+                <input type="checkbox" id="task2">
+                <label for="task2">Study Block 2 (3 Hours)</label>
+                <span class="time-tag">Afternoon</span>
+            </div>
+            
+            <div class="time-block" onclick="toggleCheck(this)">
+                <input type="<span class="time-tag">MCQ Practice</span>">
+                <label for="task3">MCQ Practice (3 Hours)</label>
+                <span class="time-tag">Evening</span>
+            </div>
+            
+            <div class="time-block" onclick="toggleCheck(this)">
+                <input type="checkbox" id="task4">
+                <label for="task4">Study Block 3 (3 Hours)</label>
+                <span class="time-tag">Night</span>
+            </div>
+            
+            <div class="time-block" onclick="toggleCheck(this)">
+                <input type="checkbox" id="task5">
+                <label for="task5">CSAT Practice (2 Hours)</label>
+                <span class="time-tag csat-tag">CSAT</span>
+            </div>
+        </div>
+
+        <!-- Motivation -->
+        <div class="motivation-box">
+            <h3>✨ Alex's Motivation ✨</h3>
+            <p class="quote" id="quote-text">"The journey of a thousand miles begins with a single step."</p>
+            <p id="alex-encouragement">You're doing great! Keep going!</p>
+        </div>
+
+    </div>
+
+    <footer>
+        Made with ❤️ for UPSC Aspirants | Stay Consistent!
+    </footer>
+
+    <script>
+        // --- 1. Subject & Day Logic ---
+        let currentDay = 1;
+        const totalDays = 15;
+        let subject = "";
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            renderDays();
+            updateProgress();
+            updateSubjectDisplay();
+            rotateQuotes();
+        });
+
+        function updateSubject() {
+            subject = document.getElementById('subjectName').value;
+            updateSubjectDisplay();
+            saveState();
         }
-      });
-      
-      // Update total count
-      document.getElementById('totalCount').textContent = total;
-      
-      // Show empty state if no tasks
-      if (total === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="icon">📓</div>
-            <p>Your timetable is empty!</p>
-            <p>Add your first study session above ✨</p>
-          </div>
-        `;
-      }
-    }
-    
-    // Initial render
-    renderTasks();
-  </script>
+
+        function updateSubjectDisplay() {
+            const display = document.getElementById('subject-display');
+            if(subject) {
+                display.textContent = `Subject: ${subject} (Day ${currentDay})`;
+            } else {
+                display.textContent = "Subject: Not Selected";
+            }
+        }
+
+        function renderDays() {
+            const grid = document.getElementById('days-grid');
+            grid.innerHTML = '';
+            for(let i = 1; i <= totalDays; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'day-btn';
+                btn.textContent = i;
+                btn.onclick = () => selectDay(i);
+                
+                // Check if this day is completed (saved in localStorage)
+                const isCompleted = localStorage.getItem(`day-${i}-completed`) === 'true';
+                if(isCompleted) btn.classList.add('completed');
+                
+                if(i === currentDay) btn.classList.add('active');
+                
+                grid.appendChild(btn);
+            }
+        }
+
+        function selectDay(day) {
+            currentDay = day;
+            renderDays();
+            updateProgress();
+            updateSubjectDisplay();
+            // Reset checkboxes for the new day
+            resetCheckboxes();
+            saveState();
+        }
+
+        function updateProgress() {
+            const progress = (currentDay / totalDays) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `Day ${currentDay}/15`;
+        }
+
+        // --- 2. Checkbox Logic (Persistence) ---
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('checked', checkbox.checked);
+            
+            // Save state of this specific task for this day
+            const taskId = checkbox.id;
+            const dayKey = `day-${currentDay}-${taskId}`;
+            localStorage.setItem(dayKey, checkbox.checked);
+            
+            // Check if all tasks are done for the day
+            checkDayCompletion();
+            saveState();
+        }
+
+        function checkDayCompletion() {
+            const checkboxes = document.querySelectorAll('.time-block input[type="checkbox"]');
+            let allChecked = true;
+            checkboxes.forEach(cb => {
+                if(!cb.checked) allChecked = false;
+            });
+
+            if(allChecked) {
+                // Mark day as completed
+                localStorage.setItem(`day-${currentDay}-completed`, 'true');
+                // Update UI
+                renderDays();
+                // Move to next day automatically after a short delay
+                if(currentDay < totalDays) {
+                    setTimeout(() => {
+                        selectDay(currentDay + 1);
+                        alert("🎉 Day Complete! Great job! Moving to Day " + (currentDay+1));
+                    }, 1000);
+                } else {
+                    alert("🎊 Congratulations! You've completed all 15 days of your study plan!");
+                }
+            }
+        }
+
+        function resetCheckboxes() {
+            const checkboxes = document.querySelectorAll('.time-block input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+                cb.parentElement.classList.remove('checked');
+            });
+        }
+
+        // --- 3. Alex's Messages & Quotes ---
+        const quotes = [
+            "The journey of a thousand miles begins with a single step.",
+            "Success is the sum of small efforts, repeated day in and day out.",
+            "Believe you can and you're halfway there.",
+            "The future depends on what you do today.",
+            "Don't watch the clock; do what it does. Keep going.",
+            "Motivation gets you started. Habit keeps you going."
+        ];
+
+        const alexMessages = [
+            "You've got this! I believe in you! 💪",
+            "Focus up! Let's get that 14 hours in! 📚",
+            "I'm so proud of you for sticking to the plan! 🌟",
+            "One day at a time. You're building your future! 🏛️",
+            "Don't forget to take a small break! Hydrate! 💧",
+            "I'm here cheering you on! Let's go! 🎉"
+        ];
+
+        function rotateQuotes() {
+            const quoteEl = document.getElementById('quote-text');
+            const msgEl = document.getElementById('alex-encouragement');
+            
+            setInterval(() => {
+                const randQ = quotes[Math.floor(Math.random() * quotes.length)];
+                const randM = alexMessages[Math.floor(Math.random() * alexMessages.length)];
+                
+                quoteEl.style.opacity = 0;
+                msgEl.style.opacity = 0;
+                
+                setTimeout(() => {
+                    quoteEl.textContent = `"${randQ}"`;
+                    msgEl.textContent = randM;
+                    quoteEl.style.opacity = 1;
+                    msgEl.style.opacity = 1;
+                }, 300);
+            }, 8000); // Change every 8 seconds
+        }
+
+        // --- 4. Local Storage (Save Progress) ---
+        function saveState() {
+            localStorage.setItem('upsc-subject', subject);
+            localStorage.setItem('upsc-current-day', currentDay);
+        }
+
+        function loadState() {
+            const savedSubject = localStorage.getItem('upsc-subject');
+            const savedDay = localStorage.getItem('upsc-current-day');
+            
+            if(savedSubject) {
+                subject = savedSubject;
+                document.getElementById('subjectName').value = subject;
+            }
+            if(savedDay) {
+                currentDay = parseInt(savedDay);
+            }
+        }
+    </script>
 </body>
 </html>
